@@ -387,13 +387,17 @@
       <!-- Netlify Contact Form -->
       <div class="contact-form-container">
         <h3>Send me a message</h3>
-        <form class="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thank-you.html">
-          <!-- Hidden field for bot protection -->
+        <!-- Updated form for Netlify -->
+        <form class="contact-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+          <!-- Hidden field for form identification -->
           <input type="hidden" name="form-name" value="contact">
+          
+          <!-- Honeypot field for spam protection -->
           <div style="display: none;">
             <label>Don't fill this out if you're human: <input name="bot-field" /></label>
           </div>
           
+          <!-- Your existing form fields -->
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
@@ -416,11 +420,12 @@
           
           <button type="submit" class="submit-btn">
             <span>Send Message</span>
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>
           </button>
         </form>
+
       </div>
     </div>
   </div>
