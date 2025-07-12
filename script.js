@@ -532,3 +532,156 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 });
+
+/// Minimalistic Experience Toggle for Mobile
+document.addEventListener('DOMContentLoaded', function() {
+  function initMobileExperienceToggle() {
+    if (window.innerWidth <= 768) {
+      const experienceTimeline = document.querySelector('.experience-timeline');
+      let toggleBtn = document.querySelector('.expand-toggle');
+      
+      if (experienceTimeline && !toggleBtn) {
+        // Create minimalistic toggle button
+        toggleBtn = document.createElement('div');
+        toggleBtn.className = 'expand-toggle';
+        toggleBtn.innerHTML = '• • • Show More';
+        
+        // Insert after experience timeline
+        experienceTimeline.parentNode.insertBefore(toggleBtn, experienceTimeline.nextSibling);
+        
+        // Add click event
+        toggleBtn.addEventListener('click', function() {
+          if (experienceTimeline.classList.contains('expanded')) {
+            experienceTimeline.classList.remove('expanded');
+            toggleBtn.innerHTML = '• • • Show More';
+          } else {
+            experienceTimeline.classList.add('expanded');
+            toggleBtn.innerHTML = '• • • Show Less';
+          }
+        });
+      }
+    } else {
+      // Remove toggle button on desktop
+      const toggleBtn = document.querySelector('.expand-toggle');
+      if (toggleBtn) {
+        toggleBtn.remove();
+      }
+    }
+  }
+  
+  // Initialize on load
+  initMobileExperienceToggle();
+  
+  // Reinitialize on window resize
+  window.addEventListener('resize', initMobileExperienceToggle);
+});
+
+
+// Mobile-specific fixes
+document.addEventListener('DOMContentLoaded', function() {
+  function handleMobileLayout() {
+    if (window.innerWidth <= 768) {
+      // Adjust viewport height for mobile browsers
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+      
+      // Add mobile class to body
+      document.body.classList.add('mobile-view');
+      
+      // Ensure proper spacing after header
+      const firstPanel = document.querySelector('.panel');
+      if (firstPanel) {
+        firstPanel.style.paddingTop = '100px';
+      }
+    } else {
+      document.body.classList.remove('mobile-view');
+    }
+  }
+  
+  // Run on load and resize
+  handleMobileLayout();
+  window.addEventListener('resize', handleMobileLayout);
+  
+  // Prevent zoom on input focus (mobile)
+  if (window.innerWidth <= 768) {
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.style.fontSize = '16px'; // Prevent zoom
+      });
+    });
+  }
+});
+
+
+// Modern Achievements & Certifications Interactions
+document.addEventListener('DOMContentLoaded', function() {
+  // Intersection Observer for scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+  
+  // Animate achievement and certification items
+  document.querySelectorAll('.achievement-item, .cert-item').forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(20px)';
+    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    item.style.transitionDelay = `${index * 0.1}s`;
+    observer.observe(item);
+  });
+  
+  // Add touch feedback for mobile
+  document.querySelectorAll('.achievement-item, .cert-item, .contact-method').forEach(item => {
+    item.addEventListener('touchstart', function() {
+      this.style.transform = 'scale(0.98)';
+    });
+    
+    item.addEventListener('touchend', function() {
+      this.style.transform = '';
+    });
+  });
+  
+  // Smooth scroll for achievement carousel
+  const achievementLists = document.querySelectorAll('.achievement-list');
+  achievementLists.forEach(list => {
+    let isScrolling = false;
+    
+    list.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+          // Add scroll indicators or effects here
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+    });
+  });
+});
+
+// Hide scroll indicator on scroll
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  const heroPanel = document.querySelector('.hero-panel');
+  
+  if (scrollIndicator && heroPanel) {
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > 100) {
+        heroPanel.classList.add('scrolled');
+      } else {
+        heroPanel.classList.remove('scrolled');
+      }
+    });
+  }
+});
