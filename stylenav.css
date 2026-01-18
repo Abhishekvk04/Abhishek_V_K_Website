@@ -106,7 +106,8 @@ header nav button span {
   height: 2px;
   display: block;
   margin: 4px auto;
-  transform: scaleX(0);
+  transform: scaleX(1);
+  /* Fix: Make bars visible by default */
   transition: 0.6s transform cubic-bezier(0.4, 0, 0.2, 1) 0s, 0.3s margin ease-in 0s;
   border-radius: 1px;
 }
@@ -122,64 +123,100 @@ header nav button:hover span {
 }
 
 /* Sticky header states */
+/* Sticky header states */
 header.sticky #logo {
   top: 10px;
   transform: translateX(-50%) scale(0.8);
-  opacity: 0;
-  transition-delay: 0.5s;
+  opacity: 1;
+  /* Keep logo visible */
 }
 
+/* Desktop Sticky: Keep extended but add background */
 header.sticky nav {
   top: 20px;
-  padding: 0;
-  width: 60px;
-  height: 60px;
-  min-width: auto;
-  transition-delay: 0.5s;
-  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-header.sticky nav button {
-  transform: translate(-50%, -50%) scale(1);
-  transition-delay: 0.6s;
-}
+/* Mobile Sticky: Collapse to button (handled by media query mostly, but improving transition) */
+@media (max-width: 768px) {
+  header.sticky nav {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    min-width: 0;
+  }
 
-header.sticky nav button span {
-  transform: scaleX(1);
-  transition: 0.6s transform cubic-bezier(0.4, 0, 0.2, 1) 0.8s, 0.3s margin ease-in 0s;
-}
+  header.sticky nav a {
+    display: none;
+  }
 
-header.sticky nav a {
-  padding: 0;
-  opacity: 0;
-  letter-spacing: 0;
-  transform: scale(0.3);
-  transition-delay: 0.2s;
-  pointer-events: none;
+  header.sticky nav button {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* Mobile menu */
 @media (max-width: 768px) {
-  header nav {
-    min-width: 300px;
-    padding: 0 1rem;
-  }
-  
-  header nav a {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.8rem;
-  }
-}
+  /* INITIAL STATE: CORNERS */
 
-@media (max-width: 480px) {
-  header nav {
-    min-width: 250px;
-    padding: 0 0.5rem;
+  /* Logo to Top-Left */
+  header #logo {
+    left: 1.5rem;
+    transform: none;
+    top: 1.5rem;
+    transition: 0.5s all cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
+  /* Nav Container to Top-Right */
+  header nav {
+    min-width: 60px;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    border-radius: 50%;
+    left: auto;
+    /* Reset left: 50% */
+    right: 1.5rem;
+    /* Stick to right */
+    transform: none;
+    /* Reset translateX */
+    top: 1.5rem;
+    transition: 0.5s all cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   header nav a {
-    padding: 0.5rem 0.6rem;
-    font-size: 0.75rem;
+    display: none;
+  }
+
+  header nav button {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* STICKY STATE: CENTER (Middle) */
+  header.sticky #logo {
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    top: 15px;
+  }
+
+  header.sticky nav {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    top: 70px;
+    /* Below logo */
+  }
+
+  /* MENU OPEN STATE: CENTER EXPAND */
+  header.menu-active nav {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 80%;
+    /* Expand width */
+    height: auto;
+    border-radius: 20px;
   }
 }
 
@@ -191,4 +228,67 @@ html {
 /* Active section highlighting */
 .panel {
   scroll-margin-top: 100px;
+}
+
+/* =========================================
+   Active Menu State (Fixed)
+   ========================================= */
+
+/* When menu is open (clicked button) */
+header.menu-active nav {
+  width: 300px;
+  /* Expand width */
+  height: auto;
+  /* Allow height to grow */
+  min-height: 300px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem 2rem;
+  /* Top padding for close button space */
+  border-radius: 20px;
+  background: rgba(10, 10, 10, 0.95);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Center on screen */
+  position: fixed;
+}
+
+header.menu-active nav a {
+  display: block;
+  /* Ensure visible */
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  pointer-events: auto !important;
+  font-size: 1.2rem;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  /* Larger touch target */
+}
+
+header.menu-active nav button {
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+}
+
+header.menu-active nav button span {
+  /* Turn into X */
+  background: var(--accent-color);
+}
+
+header.menu-active nav button span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+header.menu-active nav button span:nth-child(2) {
+  opacity: 0;
+  /* Hide middle bar */
+  transform: scale(0);
+}
+
+header.menu-active nav button span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
 }
