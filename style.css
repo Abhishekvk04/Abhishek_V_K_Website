@@ -131,7 +131,7 @@ body.loading {
 .role {
   display: block;
   color: var(--text-secondary);
-  font-size: 0.5em;
+  font-size: 0.9em;
   font-weight: 500;
 }
 
