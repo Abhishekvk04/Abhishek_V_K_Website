@@ -4105,3 +4105,13 @@ a:visited {
     font-size: 1.05rem;
   }
 }
+
+@media (max-width: 768px) {
+  body {
+    background: #000000;
+  }
+
+  .retro-bg {
+    display: none;
+  }
+}
