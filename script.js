@@ -155,35 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
             else header.classList.remove('sticky');
         });
 
-        // Companion Robot Interactions
-        const companionRobot = document.getElementById('companion-robot');
-        let robotScrollTimeout;
-
-        if (companionRobot) {
-            window.addEventListener('scroll', () => {
-                // Rotate robot slightly on scroll
-                const rot = window.scrollY * 0.1;
-                companionRobot.style.transform = `translateY(${Math.sin(window.scrollY * 0.01) * 5}px) rotate(${Math.sin(rot * 0.05) * 5}deg)`;
-
-                // Add "moving" class
-                companionRobot.classList.add('moving');
-
-                clearTimeout(robotScrollTimeout);
-                robotScrollTimeout = setTimeout(() => {
-                    companionRobot.classList.remove('moving');
-                    companionRobot.style.transform = ''; // Reset
-                }, 100);
-            });
-
-            // Robot reaction to clicks
-            companionRobot.addEventListener('click', () => {
-                companionRobot.style.transform = 'scale(1.2) rotate(360deg)';
-                setTimeout(() => {
-                    companionRobot.style.transform = '';
-                }, 500);
-            });
-        }
-
         function animate() {
             requestAnimationFrame(animate);
 

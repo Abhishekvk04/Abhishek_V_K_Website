@@ -9,11 +9,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./stylenav.css">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <!-- 3D & Animation Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -22,6 +21,13 @@
 </head>
 
 <body class="loading">
+  <!-- Retro background -->
+  <div class="retro-bg" aria-hidden="true">
+    <div class="sides topbot"></div>
+    <div class="sides lefrig"></div>
+    <div class="stars"></div>
+    <div class="stars"></div>
+  </div>
   <!-- Preloader -->
   <div id="preloader">
     <div class="loader-content">
@@ -85,75 +91,6 @@
 
   <!-- 3D Background Canvas -->
   <div id="canvas-container"></div>
-
-  <!-- Companion Robot (Main Page) -->
-  <div id="companion-robot">
-    <svg viewBox="0 0 200 200" width="80" height="80">
-      <defs>
-        <radialGradient id="grad-head" cx="30%" cy="30%" r="70%">
-          <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
-        </radialGradient>
-        <linearGradient id="grad-body-3d" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
-        </linearGradient>
-        <filter id="glow-3d" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-          <feMerge>
-            <feMergeNode in="coloredBlur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      <g class="robot-body-main">
-        <!-- Hover Shadow -->
-        <ellipse cx="100" cy="170" rx="35" ry="6" fill="rgba(0, 255, 136, 0.3)" class="hover-ring" />
-
-        <!-- Arms (Behind) -->
-        <g class="arm left-arm" transform="rotate(20, 100, 100)">
-          <path d="M60 110 Q 50 130 40 120" stroke="#333" stroke-width="8" stroke-linecap="round" fill="none" />
-          <circle cx="40" cy="120" r="6" fill="#00ff88" />
-        </g>
-
-        <g class="arm right-arm" transform="rotate(-20, 100, 100)">
-          <!-- Pointing Hand Structure -->
-          <path d="M140 110 Q 150 130 160 115" stroke="#333" stroke-width="8" stroke-linecap="round" fill="none" />
-          <path d="M160 115 L 170 105" stroke="#333" stroke-width="4" stroke-linecap="round" /> <!-- Finger -->
-          <circle cx="160" cy="115" r="7" fill="#222" />
-          <circle cx="170" cy="105" r="3" fill="#00ff88" filter="url(#glow-3d)" /> <!-- Glowing Tip -->
-        </g>
-
-        <!-- Body Container (Outer Glow Ring) -->
-        <circle cx="100" cy="100" r="48" fill="none" stroke="rgba(0, 255, 136, 0.3)" stroke-width="1" />
-        <circle cx="100" cy="100" r="45" fill="rgba(0, 0, 0, 0.8)" stroke="#00ff88" stroke-width="2"
-          filter="url(#glow-3d)" />
-
-        <!-- Main Sphere Body -->
-        <circle cx="100" cy="100" r="44" fill="url(#grad-body-3d)" opacity="0.9" />
-
-        <!-- Screen/Face Area -->
-        <rect x="75" y="85" width="50" height="30" rx="10" fill="#111" stroke="rgba(0, 255, 136, 0.2)"
-          stroke-width="1" />
-
-        <!-- Eyes -->
-        <g class="eyes">
-          <rect x="85" y="92" width="10" height="14" rx="3" fill="#00ff88" class="eye blink" filter="url(#glow-3d)" />
-          <rect x="105" y="92" width="10" height="14" rx="3" fill="#00ff88" class="eye blink" filter="url(#glow-3d)" />
-        </g>
-
-        <!-- Antenna -->
-        <line x1="100" y1="56" x2="100" y2="35" stroke="#555" stroke-width="3" />
-        <circle cx="100" cy="35" r="5" fill="#ff6b6b" class="antenna-light" filter="url(#glow-3d)">
-          <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-        </circle>
-
-        <!-- Reflection Highlight -->
-        <path d="M75 75 Q 100 60 125 75" stroke="rgba(255,255,255,0.1)" stroke-width="3" fill="none" />
-      </g>
-    </svg>
-  </div>
 
   <header id="myHeader">
     <div id="logo">
@@ -476,76 +413,85 @@
     <section id="projects" class="panel projects-panel">
       <div class="section-content">
         <h2 class="section-title">Featured Projects</h2>
-        <div class="projects-grid">
-          <!-- Centralised Syslog Analyser -->
-          <div class="project-card featured">
-            <div class="project-header">
-              <h3>Centralised Syslog Analyser</h3>
-              <span class="project-date">2025</span>
-            </div>
-            <p class="project-description">
-              Developed a centralized syslog pipeline with automated monitoring on Linux, <strong>reducing incident
-                response time by 40%</strong> and improving data reliability through log validation. Created an
-              OpenSearch dashboard for real-time log visualization, <strong>accelerating troubleshooting</strong>.
-            </p>
-            <div class="project-highlights">
-              <span class="highlight">⚡ 40% Faster Response</span>
-              <span class="highlight">📊 Real-time Dashboard</span>
-              <span class="highlight">🛡️ Improved Reliability</span>
-            </div>
-            <div class="tech-stack">
-              <span class="tech">Linux</span>
-              <span class="tech">OpenSearch</span>
-              <span class="tech">Log Stash</span>
-              <span class="tech">Syslog</span>
-            </div>
-          </div>
+        <div class="project-switcher">
+          <input type="radio" name="featured-project" id="proj-1" checked>
+          <input type="radio" name="featured-project" id="proj-2">
+          <input type="radio" name="featured-project" id="proj-3">
 
-          <!-- KrishiJal -->
-          <div class="project-card featured">
-            <div class="project-header">
-              <h3>KrishiJal – Smart Irrigation Tool</h3>
-              <span class="project-date">2025</span>
-            </div>
-            <p class="project-description">
-              AI-based irrigation scheduler integrating soil images and weather data to address inefficient water use,
-              <strong>reducing consumption by 30–40%</strong>. Increased irrigation prediction accuracy by
-              <strong>25%</strong> by applying MobileNetV2 and Random Forests.
-            </p>
-            <div class="project-highlights">
-              <span class="highlight">💧 30-40% Water Saving</span>
-              <span class="highlight">🎯 25% Higher Accuracy</span>
-              <span class="highlight">🌱 AI Agriculture</span>
-            </div>
-            <div class="tech-stack">
-              <span class="tech">MobileNetV2</span>
-              <span class="tech">Random Forest</span>
-              <span class="tech">Python</span>
-              <span class="tech">IoT</span>
-            </div>
-          </div>
+          <div class="selector">
+            <label for="proj-1" class="project-card featured project-card-sel card-1">
+              <div class="project-header">
+                <h3>Centralised Syslog Analyser</h3>
+                <span class="project-date">2025</span>
+              </div>
+              <p class="project-description">
+                Developed a centralized syslog pipeline with automated monitoring on Linux, <strong>reducing incident
+                  response time by 40%</strong> and improving data reliability through log validation. Created an
+                OpenSearch dashboard for real-time log visualization, <strong>accelerating troubleshooting</strong>.
+              </p>
+              <div class="project-highlights">
+                <span class="highlight">⚡ 40% Faster Response</span>
+                <span class="highlight">📊 Real-time Dashboard</span>
+                <span class="highlight">🛡️ Improved Reliability</span>
+              </div>
+              <div class="tech-stack">
+                <span class="tech">Linux</span>
+                <span class="tech">OpenSearch</span>
+                <span class="tech">Log Stash</span>
+                <span class="tech">Syslog</span>
+              </div>
+            </label>
 
-          <!-- TaxCraft -->
-          <div class="project-card featured">
-            <div class="project-header">
-              <h3>TaxCraft – AI Powered Tax Assistant</h3>
-              <span class="project-date">2024</span>
-            </div>
-            <p class="project-description">
-              Achieved <strong>90% accuracy</strong> with sub-second responses by building an AI tax assistant using
-              <strong>LangChain + RAG</strong>. Increased automation efficiency by <strong>50%</strong> through
-              OCR-driven attribute extraction for tagging and validation.
-            </p>
-            <div class="project-highlights">
-              <span class="highlight">🤖 LangChain + RAG</span>
-              <span class="highlight">⚡ 50% Higher Efficiency</span>
-              <span class="highlight">📄 OCR Extraction</span>
-            </div>
-            <div class="tech-stack">
-              <span class="tech">LangChain</span>
-              <span class="tech">RAG</span>
-              <span class="tech">OCR</span>
-              <span class="tech">Gen AI</span>
+            <label for="proj-2" class="project-card featured project-card-sel card-2">
+              <div class="project-header">
+                <h3>KrishiJal – Smart Irrigation Tool</h3>
+                <span class="project-date">2025</span>
+              </div>
+              <p class="project-description">
+                AI-based irrigation scheduler integrating soil images and weather data to address inefficient water
+                use, <strong>reducing consumption by 30–40%</strong>. Increased irrigation prediction accuracy by
+                <strong>25%</strong> by applying MobileNetV2 and Random Forests.
+              </p>
+              <div class="project-highlights">
+                <span class="highlight">💧 30-40% Water Saving</span>
+                <span class="highlight">🎯 25% Higher Accuracy</span>
+                <span class="highlight">🌱 AI Agriculture</span>
+              </div>
+              <div class="tech-stack">
+                <span class="tech">MobileNetV2</span>
+                <span class="tech">Random Forest</span>
+                <span class="tech">Python</span>
+                <span class="tech">IoT</span>
+              </div>
+            </label>
+
+            <label for="proj-3" class="project-card featured project-card-sel card-3">
+              <div class="project-header">
+                <h3>TaxCraft – AI Powered Tax Assistant</h3>
+                <span class="project-date">2024</span>
+              </div>
+              <p class="project-description">
+                Achieved <strong>90% accuracy</strong> with sub-second responses by building an AI tax assistant using
+                <strong>LangChain + RAG</strong>. Increased automation efficiency by <strong>50%</strong> through
+                OCR-driven attribute extraction for tagging and validation.
+              </p>
+              <div class="project-highlights">
+                <span class="highlight">🤖 LangChain + RAG</span>
+                <span class="highlight">⚡ 50% Higher Efficiency</span>
+                <span class="highlight">📄 OCR Extraction</span>
+              </div>
+              <div class="tech-stack">
+                <span class="tech">LangChain</span>
+                <span class="tech">RAG</span>
+                <span class="tech">OCR</span>
+                <span class="tech">Gen AI</span>
+              </div>
+            </label>
+
+            <div class="project-picks">
+              <label for="proj-1" class="project-pick pick-1">Centralised Syslog Analyser</label>
+              <label for="proj-2" class="project-pick pick-2">KrishiJal – Smart Irrigation</label>
+              <label for="proj-3" class="project-pick pick-3">TaxCraft – AI Tax Assistant</label>
             </div>
           </div>
         </div>
